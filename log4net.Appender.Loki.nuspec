@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>0.1.0</version>
+    <title>$title$</title>
+    <authors>Anas EL HAJJAJI</authors>
+    <owners>Anas EL HAJJAJI</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="expression">Apache-2.0</license>
+    <projectUrl>https://github.com/anaselhajjaji/log4net.Appender.Loki</projectUrl>
+    <description>This appender will allow log4net to be configured to send log messages to Loki directly.</description>
+    <!--releaseNotes>Summary of changes made in this release of the package.</releaseNotes-->
+    <copyright>Copyright 2020</copyright>
+    <tags>log4net appender loki</tags>
+  </metadata>
+</package>

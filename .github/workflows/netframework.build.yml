@@ -1,0 +1,26 @@
+name: Dot Net Framework 4 (Build)
+
+on:
+   push:
+     branches:    
+      - master
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@master
+   
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.2
+     
+    - name: Restore NuGet Packages
+      run: nuget restore log4net.Appender.Loki.sln
+    
+    - name: Setup MSBuild Path
+      uses: warrenbuckley/Setup-MSBuild@v1
+    
+    - name: Build
+      run: msbuild log4net.Appender.Loki.csproj /p:Configuration=Release

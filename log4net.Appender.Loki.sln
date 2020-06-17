@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.Appender.Loki", "log4net.Appender.Loki.csproj", "{D2DD78D6-396A-4F1E-8D5E-0F7D4F8463EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example", "Example\Example.csproj", "{D321E3CB-4D2B-4383-8F5A-2B0E65C332B8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D2DD78D6-396A-4F1E-8D5E-0F7D4F8463EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2DD78D6-396A-4F1E-8D5E-0F7D4F8463EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2DD78D6-396A-4F1E-8D5E-0F7D4F8463EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2DD78D6-396A-4F1E-8D5E-0F7D4F8463EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D321E3CB-4D2B-4383-8F5A-2B0E65C332B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D321E3CB-4D2B-4383-8F5A-2B0E65C332B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D321E3CB-4D2B-4383-8F5A-2B0E65C332B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D321E3CB-4D2B-4383-8F5A-2B0E65C332B8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {214CF204-35E7-48E5-B3FC-08B9BA8B5E5D}
+	EndGlobalSection
+EndGlobal
