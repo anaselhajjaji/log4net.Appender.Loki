@@ -41,21 +41,18 @@ namespace log4net.Appender.Loki
                 var stream = new LokiContentStream();
                 content.Streams.Add(stream);
 
-                stream.Labels.Add(new LokiLabel("level", GetLevel(logEvent.Level)));
+                stream.Labels.Add("level", GetLevel(logEvent.Level));
                 foreach (LokiLabel globalLabel in _globalLabels)
-                    stream.Labels.Add(new LokiLabel(globalLabel.Key, globalLabel.Value));
+                    stream.Labels.Add(globalLabel.Key, globalLabel.Value);
 
                 foreach (var key in logEvent.Properties.GetKeys())
                 {
                     // Some enrichers pass strings with quotes surrounding the values inside the string,
                     // which results in redundant quotes after serialization and a "bad request" response.
                     // To avoid this, remove all quotes from the value.
-                    stream.Labels.Add(new LokiLabel(key, logEvent.Properties[key].ToString().Replace("\"", "")));
+                    // also avoid ":"
+                    stream.Labels.Add(key.Replace(":", "_"), logEvent.Properties[key].ToString().Replace("\"", ""));
                 }
-
-                var localTime = DateTime.Now;
-                var localTimeAndOffset = new DateTimeOffset(localTime, TimeZoneInfo.Local.GetUtcOffset(localTime));
-                var time = localTimeAndOffset.ToString("o");
 
                 var sb = new StringBuilder();
                 sb.AppendLine(logEvent.RenderedMessage);
@@ -70,7 +67,7 @@ namespace log4net.Appender.Loki
                     }
                 }
 
-                stream.Entries.Add(new LokiEntry(time, sb.ToString()));
+                stream.Entries.Add(new LokiEntry(DateTime.UtcNow, sb.ToString()));
             }
             
             if (content.Streams.Count > 0)
