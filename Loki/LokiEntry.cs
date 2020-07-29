@@ -8,16 +8,25 @@ namespace log4net.Appender.Loki
 {
     internal class LokiEntry
     {
-        public LokiEntry(string ts, string line)
+        public LokiEntry(DateTime timestamp, string line)
         {
-            Ts = ts;
+            Timestamp = timestamp;
             Line = line;
         }
 
-        [JsonProperty("ts")]
-        public string Ts { get; set; }
+        public DateTime Timestamp { get; set; }
 
-        [JsonProperty("line")]
         public string Line { get; set; }
+
+        private long UnixTimeInNanoseconds(DateTime fromDate)
+        {
+            DateTime epochStart = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            return (fromDate - epochStart).Ticks * 100;
+        }
+
+        public List<string> ToStringList()
+        {
+            return new List<string>() { UnixTimeInNanoseconds(Timestamp).ToString(), Line };
+        }
     }
 }
