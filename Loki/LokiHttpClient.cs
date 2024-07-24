@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 
 namespace log4net.Appender.Loki
 {
@@ -56,6 +57,14 @@ namespace log4net.Appender.Loki
         {
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
             return Convert.ToBase64String(plainTextBytes);
+        }
+
+        public void SetTenantId(string tenantId)
+        {
+            var headers = HttpClient.DefaultRequestHeaders;
+            if (headers.Any(x => x.Key == "X-Scope-OrgID"))
+                return;
+            headers.Add("X-Scope-OrgID", $"{tenantId}");
         }
     }
 }

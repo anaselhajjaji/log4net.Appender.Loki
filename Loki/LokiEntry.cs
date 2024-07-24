@@ -8,6 +8,8 @@ namespace log4net.Appender.Loki
 {
     internal class LokiEntry
     {
+        public List<String> Values { get; set; } // = new List<string{ get; set; }
+
         public LokiEntry(string ts, string line)
         {
             Ts = ts;

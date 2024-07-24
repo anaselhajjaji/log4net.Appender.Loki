@@ -1,4 +1,4 @@
-﻿using log4net.Appender.Loki.Labels;
+using log4net.Appender.Loki.Labels;
 using log4net.Core;
 using System;
 using System.Collections.Generic;
@@ -10,14 +10,13 @@ namespace log4net.Appender.Loki
 {
     internal class LokiBatchFormatter
     {
-        private readonly IList<LokiLabel> _globalLabels;
+        private readonly LokiLabel _globalLabels;
 
         public LokiBatchFormatter()
         {
-            _globalLabels = new List<LokiLabel>();
         }
 
-        public LokiBatchFormatter(IList<LokiLabel> globalLabels)
+        public LokiBatchFormatter(LokiLabel globalLabels)
         {
             _globalLabels = globalLabels;
         }
@@ -41,18 +40,6 @@ namespace log4net.Appender.Loki
                 var stream = new LokiContentStream();
                 content.Streams.Add(stream);
 
-                stream.Labels.Add(new LokiLabel("level", GetLevel(logEvent.Level)));
-                foreach (LokiLabel globalLabel in _globalLabels)
-                    stream.Labels.Add(new LokiLabel(globalLabel.Key, globalLabel.Value));
-
-                foreach (var key in logEvent.Properties.GetKeys())
-                {
-                    // Some enrichers pass strings with quotes surrounding the values inside the string,
-                    // which results in redundant quotes after serialization and a "bad request" response.
-                    // To avoid this, remove all quotes from the value.
-                    stream.Labels.Add(new LokiLabel(key, logEvent.Properties[key].ToString().Replace("\"", "")));
-                }
-
                 var localTime = DateTime.Now;
                 var localTimeAndOffset = new DateTimeOffset(localTime, TimeZoneInfo.Local.GetUtcOffset(localTime));
                 var time = localTimeAndOffset.ToString("o");
@@ -69,10 +56,10 @@ namespace log4net.Appender.Loki
                         e = e.InnerException;
                     }
                 }
-
-                stream.Entries.Add(new LokiEntry(time, sb.ToString()));
+                stream.AddLabel(_globalLabels.Key, _globalLabels.Value);
+                stream.AddEntry(localTimeAndOffset, sb.ToString());
             }
-            
+
             if (content.Streams.Count > 0)
                 output.Write(content.Serialize());
         }

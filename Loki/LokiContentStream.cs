@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using log4net.Appender.Loki.Loki.Utils;
 
 namespace log4net.Appender.Loki
 {
@@ -12,36 +13,20 @@ namespace log4net.Appender.Loki
 
     internal class LokiContentStream
     {
-        [JsonIgnore]
-        public List<LokiLabel> Labels { get; } = new List<LokiLabel>();
+        [JsonProperty("stream")]
+        public Dictionary<string, string> Labels { get; } = new Dictionary<string, string>();
 
-        [JsonProperty("labels")]
-        public string LabelsString
+        [JsonProperty("values")]
+        public IList<IList<string>> Entries { get; set; } = new List<IList<string>>();
+
+        public void AddLabel(string key, string value)
         {
-            get
-            {
-                StringBuilder sb = new StringBuilder("{");
-                bool firstLabel = true;
-                foreach (LokiLabel label in Labels)
-                {
-                    if (firstLabel)
-                        firstLabel = false;
-                    else
-                        sb.Append(",");
-
-                    sb.Append(label.Key);
-                    sb.Append("=\"");
-                    sb.Append(label.Value);
-                    sb.Append("\"");
-                }
-
-                sb.Append("}");
-                return sb.ToString();
-            }
+            Labels[key] = value;
         }
 
-
-        [JsonProperty("entries")]
-        public List<LokiEntry> Entries { get; set; } = new List<LokiEntry>();
+        public void AddEntry(DateTimeOffset timestamp, string entry)
+        {
+            Entries.Add(new[] {timestamp.ToUnixNanosecondsString(), entry});
+        }
     }
 }

@@ -13,8 +13,12 @@ namespace log4net.Appender.Loki.Labels
             Value = value;
         }
 
-        public string Key { get; }
+        public LokiLabel()
+        {
+        }
 
-        public string Value { get; }
+        public string Key { get; set; }
+
+        public string Value { get; set; }
     }
 }
